@@ -13,7 +13,7 @@ public class Product {
 
     private String productCode;
 
-    private String productType;
+    private String productType = "FIXI";
 
     private String productName;
 

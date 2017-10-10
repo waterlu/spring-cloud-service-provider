@@ -2,37 +2,124 @@ package cn.lu.clound.data;
 
 import cn.lu.clound.entity.Product;
 import com.google.common.base.Strings;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
  * Created by lutiehua on 2017/10/10.
  */
+@Component
 public class ProductData {
 
-    private static Map<String, Product> productMap = new HashMap<>();
+    private Map<String, Product> productMap = new HashMap<>();
 
-    public static long getId() {
+    @Value("${product.default.status}")
+    private Integer defaultStatus;
+
+    @Value("${product.default.onStatus}")
+    private Integer defaultOnStatus;
+
+    @Value("${product.default.period}")
+    private Integer defaultPeriod;
+
+    @Value("${product.default.periodType}")
+    private String defaultPeriodType;
+
+    @Value("${product.default.minInvestment}")
+    private BigDecimal defaultMinInvestment;
+
+    @Value("${product.default.maxInvestment}")
+    private BigDecimal defaultMaxInvestment;
+
+    public long getId() {
         return productMap.size() + 1;
     }
 
-    public static Product add(Product product) {
+    public Product add(Product product) {
         if (Strings.isNullOrEmpty(product.getProductUuid())) {
-            return null;
+            String uuid = UUID.randomUUID().toString();
+            uuid = uuid.replaceAll("-", "");
+            product.setProductUuid(uuid);
         }
 
         if (productMap.containsKey(product.getProductUuid())) {
             return null;
         }
 
-        return productMap.put(product.getProductUuid(), product);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        Date now = new Date();
+        String date = dateFormat.format(now);
+
+        if (null == product.getProductId()) {
+            long id = getId();
+            product.setProductId(id);
+        }
+
+        if (null == product.getProductCode()) {
+            product.setProductCode(String.format("%s%s%04d", product.getProductType(), date, product.getProductId()));
+        }
+
+        if (null == product.getProductName()) {
+            product.setProductName(String.format("理财产品%d号", product.getProductId()));
+        }
+
+        if (null == product.getProductStatus()) {
+            product.setProductStatus(defaultStatus);
+        }
+
+        if (null == product.getProductOnStatus()) {
+            product.setProductOnStatus(defaultOnStatus);
+        }
+
+        if (null == product.getProductPeriod()) {
+            product.setProductPeriod(defaultPeriod);
+        }
+
+        if (null == product.getProductPeriodType()) {
+            product.setProductPeriodType(defaultPeriodType);
+        }
+
+        if (null == product.getProductMinInvestment()) {
+            product.setProductMinInvestment(defaultMinInvestment);
+        }
+
+        if (null == product.getProductMaxInvestment()) {
+            product.setProductMaxInvestment(defaultMaxInvestment);
+        }
+
+        BigDecimal minInvestment = product.getProductMinInvestment();
+        minInvestment = minInvestment.setScale(2, BigDecimal.ROUND_HALF_UP);
+        product.setProductMinInvestment(minInvestment);
+
+        BigDecimal maxInvestment = product.getProductMaxInvestment();
+        maxInvestment = maxInvestment.setScale(2, BigDecimal.ROUND_HALF_UP);
+        product.setProductMaxInvestment(maxInvestment);
+
+        BigDecimal annualInterestRate = product.getProductAnnualInterestRate();
+        annualInterestRate = annualInterestRate.setScale(4, BigDecimal.ROUND_HALF_UP);
+        product.setProductAnnualInterestRate(annualInterestRate);
+
+        BigDecimal accumulation = new BigDecimal(0);
+        accumulation = accumulation.setScale(2, BigDecimal.ROUND_HALF_UP);
+        product.setProductAccumulation(accumulation);
+
+        BigDecimal scale = product.getProductScale();
+        scale = scale.setScale(2, BigDecimal.ROUND_HALF_UP);
+        product.setProductScale(scale);
+
+        productMap.put(product.getProductUuid(), product);
+        return product;
     }
 
-    public static Product get(String productUuid) {
+    public Product get(String productUuid) {
         return productMap.get(productUuid);
     }
 
-    public static List<Product> getAll() {
+    public List<Product> getAll() {
         List<Product> productList = new ArrayList<>();
         productList.addAll(productMap.values());
         Collections.sort(productList, new Comparator<Product>() {
@@ -44,7 +131,7 @@ public class ProductData {
         return productList;
     }
 
-    public static Product put(String productUuid, Product product) {
+    public Product put(String productUuid, Product product) {
         if (Strings.isNullOrEmpty(productUuid)) {
             return null;
         }
@@ -53,10 +140,11 @@ public class ProductData {
             return null;
         }
 
-        return productMap.put(productUuid, product);
+        productMap.put(productUuid, product);
+        return product;
     }
 
-    public static boolean remove(String productUuid) {
+    public boolean remove(String productUuid) {
         if (Strings.isNullOrEmpty(productUuid)) {
             return false;
         }

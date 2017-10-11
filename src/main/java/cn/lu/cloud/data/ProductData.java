@@ -1,6 +1,6 @@
 package cn.lu.cloud.data;
 
-import cn.lu.cloud.entity.Product;
+import cn.lu.cloud.dto.ProductDTO;
 import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ import java.util.*;
 @Component
 public class ProductData {
 
-    private Map<String, Product> productMap = new HashMap<>();
+    private Map<String, ProductDTO> productMap = new HashMap<>();
 
     @Value("${product.default.status}")
     private Integer defaultStatus;
@@ -39,7 +39,7 @@ public class ProductData {
         return productMap.size() + 1;
     }
 
-    public Product add(Product product) {
+    public ProductDTO add(ProductDTO product) {
         if (Strings.isNullOrEmpty(product.getProductUuid())) {
             String uuid = UUID.randomUUID().toString();
             uuid = uuid.replaceAll("-", "");
@@ -115,23 +115,23 @@ public class ProductData {
         return product;
     }
 
-    public Product get(String productUuid) {
+    public ProductDTO get(String productUuid) {
         return productMap.get(productUuid);
     }
 
-    public List<Product> getAll() {
-        List<Product> productList = new ArrayList<>();
+    public List<ProductDTO> getAll() {
+        List<ProductDTO> productList = new ArrayList<>();
         productList.addAll(productMap.values());
-        Collections.sort(productList, new Comparator<Product>() {
+        Collections.sort(productList, new Comparator<ProductDTO>() {
             @Override
-            public int compare(Product product1, Product product2) {
+            public int compare(ProductDTO product1, ProductDTO product2) {
                 return product1.getProductId().compareTo(product2.getProductId());
             }
         });
         return productList;
     }
 
-    public Product put(String productUuid, Product product) {
+    public ProductDTO put(String productUuid, ProductDTO product) {
         if (Strings.isNullOrEmpty(productUuid)) {
             return null;
         }

@@ -4,7 +4,6 @@ import cn.lu.cloud.api.ProductMgtAPI;
 import cn.lu.cloud.common.ResponseResult;
 import cn.lu.cloud.data.ProductData;
 import cn.lu.cloud.dto.ProductDTO;
-import cn.lu.cloud.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,50 +17,23 @@ public class ProductMgtController implements ProductMgtAPI {
     private ProductData productData;
 
     @Override
-    public ResponseResult createProduct(ProductDTO productDTO) {
+    public ResponseResult createProduct(@RequestBody ProductDTO productDTO) {
         ResponseResult responseResult = new ResponseResult();
-//        Product product = new Product(productDTO);
-//        responseResult.setData(productData.add(product));
+        responseResult.setData(productData.add(productDTO));
         return responseResult;
     }
 
     @Override
-    public ResponseResult updateProduct(String s, ProductDTO productDTO) {
-        return null;
+    public ResponseResult updateProduct(@PathVariable("productUuid") String productUuid, @RequestBody ProductDTO productDTO) {
+        ResponseResult responseResult = new ResponseResult();
+        responseResult.setData(productData.put(productUuid, productDTO));
+        return responseResult;
     }
 
     @Override
-    public ResponseResult deleteProduct(String s) {
-        return null;
+    public ResponseResult deleteProduct(@PathVariable("productUuid") String productUuid) {
+        ResponseResult responseResult = new ResponseResult();
+        responseResult.setData(productData.remove(productUuid));
+        return responseResult;
     }
 }
-
-//@RestController
-//@RequestMapping("/mgt/products")
-//public class ProductMgtController {
-//
-//    @Autowired
-//    private ProductData productData;
-//
-//    @PostMapping("/")
-//    public ResponseResult createProduct(@RequestBody Product product) {
-//        ResponseResult responseResult = new ResponseResult();
-//        responseResult.setData(productData.add(product));
-//        return responseResult;
-//    }
-//
-//    @PutMapping("/{productUUid}")
-//    public ResponseResult updateProduct(@PathVariable String productUUid, @RequestBody Product product) {
-//        ResponseResult responseResult = new ResponseResult();
-//        responseResult.setData(productData.put(productUUid, product));
-//        return responseResult;
-//    }
-//
-//    @DeleteMapping("/{productUUid}")
-//    public ResponseResult deleteProduct(@PathVariable String productUUid) {
-//        ResponseResult responseResult = new ResponseResult();
-//        responseResult.setData(productData.remove(productUUid));
-//        return responseResult;
-//    }
-//
-//}

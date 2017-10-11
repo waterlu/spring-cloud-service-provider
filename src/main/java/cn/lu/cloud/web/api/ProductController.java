@@ -3,7 +3,7 @@ package cn.lu.cloud.web.api;
 import cn.lu.cloud.api.ProductAPI;
 import cn.lu.cloud.common.ResponseResult;
 import cn.lu.cloud.data.ProductData;
-import cn.lu.cloud.entity.Product;
+import cn.lu.cloud.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +19,7 @@ public class ProductController implements ProductAPI {
     @Override
     public ResponseResult getProduct(@PathVariable String productUuid) {
         ResponseResult responseResult = new ResponseResult();
-        Product product = productData.get(productUuid);
+        ProductDTO product = productData.get(productUuid);
         responseResult.setData(product);
         return responseResult;
     }

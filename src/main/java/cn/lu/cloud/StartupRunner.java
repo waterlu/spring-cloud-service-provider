@@ -1,7 +1,7 @@
 package cn.lu.cloud;
 
 import cn.lu.cloud.data.ProductData;
-import cn.lu.cloud.entity.Product;
+import cn.lu.cloud.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 
@@ -18,21 +18,21 @@ public class StartupRunner implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
 
-        Product product1 = new Product();
+        ProductDTO product1 = new ProductDTO();
         product1.setProductUuid("6469b9e9d4f742ca979ae5bb65e440f8");
         product1.setProductName("默认理财产品1号");
         product1.setProductAnnualInterestRate(new BigDecimal(0.08d));
         product1.setProductScale(new BigDecimal(100000));
         productData.add(product1);
 
-        Product product2 = new Product();
+        ProductDTO product2 = new ProductDTO();
         product2.setProductUuid("6a5e31eca0f5499dbb9fb945dd1101f8");
         product2.setProductName("默认理财产品2号");
         product2.setProductAnnualInterestRate(new BigDecimal(0.08d));
         product2.setProductScale(new BigDecimal(100000));
         productData.add(product2);
 
-        Product product3 = new Product();
+        ProductDTO product3 = new ProductDTO();
         product3.setProductUuid("54410325492c48bb9ffee92d59e89066");
         product3.setProductName("默认理财产品3号");
         product3.setProductAnnualInterestRate(new BigDecimal(0.08d));

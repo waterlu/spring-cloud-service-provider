@@ -1,4 +1,4 @@
-package cn.lu.clound.entity;
+package cn.lu.cloud.entity;
 
 import java.math.BigDecimal;
 

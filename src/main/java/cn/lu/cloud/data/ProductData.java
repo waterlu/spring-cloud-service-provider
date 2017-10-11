@@ -1,6 +1,6 @@
-package cn.lu.clound.data;
+package cn.lu.cloud.data;
 
-import cn.lu.clound.entity.Product;
+import cn.lu.cloud.entity.Product;
 import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

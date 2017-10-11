@@ -1,7 +1,7 @@
-package cn.lu.clound;
+package cn.lu.cloud;
 
-import cn.lu.clound.data.ProductData;
-import cn.lu.clound.entity.Product;
+import cn.lu.cloud.data.ProductData;
+import cn.lu.cloud.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 

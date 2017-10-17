@@ -2,6 +2,8 @@ package cn.lu.cloud.data;
 
 import cn.lu.cloud.dto.ProductDTO;
 import com.google.common.base.Strings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +16,8 @@ import java.util.*;
  */
 @Component
 public class ProductData {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private Map<String, ProductDTO> productMap = new HashMap<>();
 
@@ -40,6 +44,9 @@ public class ProductData {
     }
 
     public ProductDTO add(ProductDTO product) {
+
+        logger.info("");
+
         if (Strings.isNullOrEmpty(product.getProductUuid())) {
             String uuid = UUID.randomUUID().toString();
             uuid = uuid.replaceAll("-", "");

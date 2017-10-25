@@ -22,7 +22,9 @@ public class StartupRunner implements CommandLineRunner {
         product1.setProductUuid("6469b9e9d4f742ca979ae5bb65e440f8");
         product1.setProductName("默认理财产品1号");
         product1.setProductAnnualInterestRate(new BigDecimal(0.08d));
-        product1.setProductScale(new BigDecimal(100000));
+        product1.setProductScale(new BigDecimal(10000000));
+        product1.setProductMinInvestment(new BigDecimal(10));
+        product1.setProductMaxInvestment(new BigDecimal(10000));
         productData.add(product1);
 
         ProductDTO product2 = new ProductDTO();
